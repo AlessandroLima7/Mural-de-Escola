@@ -1,5 +1,7 @@
 package com.mural.infra.exception;
 
+import com.mongodb.MongoBulkWriteException;
+import com.mongodb.MongoWriteException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -26,10 +28,22 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
     }
 
+    @ExceptionHandler(MongoWriteException.class)
+    public ResponseEntity tratarErro403UserDuplicado() {
+
+        return ResponseEntity.badRequest().body("Username já está em utilização. Por favor, selecione outro.");
+    }
+
+
+
+    // Records e métodos
+
     public record DadosErroValidacao(String campo, String mensagem) {
         public DadosErroValidacao(FieldError erro){
             this(erro.getField(), erro.getDefaultMessage());
         }
     }
+
+
 
 }
