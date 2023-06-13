@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,7 +39,7 @@ public class Usuario implements UserDetails {
         this.username = usuario.username();
         this.password = new BCryptPasswordEncoder().encode(usuario.password());
         this.perfil = usuario.perfil();
-        this.ativo = true;
+        this.ativo = false;
     }
 
     public void atualizarInformacoes(DadosAtualizarUsuario usuario){
@@ -59,8 +60,24 @@ public class Usuario implements UserDetails {
     }
 
 
-    public void excluir() {
-        this.ativo = false;
+    public ResponseEntity incluir(DadosUsuario usuario, String nome){
+        if(!usuario.perfil().equals(Perfil.ALUNO)) {
+            this.ativo = true;
+            return ResponseEntity.ok(String.format("Usuário %s incluso com sucesso!", nome));
+        }
+        else{
+            return ResponseEntity.badRequest().body("Falha ao incluir usuário.");
+        }
+
+    }
+    public ResponseEntity excluir(DadosUsuario usuario, String nome) {
+        if(!usuario.perfil().equals(Perfil.ALUNO)) {
+            this.ativo = false;
+            return ResponseEntity.ok(String.format("Usuário %s excluído com sucesso!", nome));
+        }
+        else{
+            return ResponseEntity.badRequest().body("Falha ao excluir usuário.");
+        }
     }
 
     @Override
