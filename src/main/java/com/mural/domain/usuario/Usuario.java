@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +33,7 @@ public class Usuario implements UserDetails {
     public Usuario(DadosCadastroUsuario usuario){
         this.nome = usuario.nome();
         this.username = usuario.username();
-        this.password = usuario.password();
+        this.password = new BCryptPasswordEncoder().encode(usuario.password());
         this.perfil = usuario.perfil();
         this.ativo = true;
     }
