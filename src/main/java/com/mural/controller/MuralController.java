@@ -71,7 +71,7 @@ public class MuralController {
             return ResponseEntity.noContent().build();
         }
         else {
-            return ResponseEntity.badRequest().body("Não autorizada a exclusão do post no Mural. d");
+            return ResponseEntity.badRequest().body("Não autorizada a exclusão do post no Mural.");
         }
 
 
