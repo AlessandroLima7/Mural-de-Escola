@@ -34,6 +34,8 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body("Username já está em utilização. Por favor, selecione outro.");
     }
 
+  
+
 
 
     // Records e métodos

@@ -2,6 +2,7 @@ package com.mural.domain.mural;
 
 import com.mural.domain.usuario.Perfil;
 import com.mural.domain.usuario.DadosUsuario;
+import com.mural.domain.usuario.Usuario;
 import com.mural.domain.usuario.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,13 +26,11 @@ public class Mural {
     private Prioridade prioridade;
 
 
-    public Mural(DadosCadastroMural dados, UsuarioRepository repository){
-
-        var user = repository.findById(dados.idUsuario());
+    public Mural(DadosCadastroMural dados, Usuario logado){
         this.mensagem = dados.mensagem();
-        this.usuario = new DadosUsuario(user.get());
+        this.usuario = new DadosUsuario(logado);
         this.prioridade = dados.prioridade();
-        if(user.get().getPerfil().equals(Perfil.PROFESSOR)){
+        if(logado.getPerfil().equals(Perfil.PROFESSOR)){
             this.mostrar = true;
         }
         else{

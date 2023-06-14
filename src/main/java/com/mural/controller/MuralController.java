@@ -44,8 +44,8 @@ public class MuralController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosMural> cadastrar(@RequestBody @Valid DadosCadastroMural dados, UriComponentsBuilder uriBuilder) {
-        Mural mural = new Mural(dados, usuarioRepository);
+    public ResponseEntity<DadosMural> cadastrar(@RequestBody @Valid DadosCadastroMural dados, @AuthenticationPrincipal Usuario logado,  UriComponentsBuilder uriBuilder) {
+        Mural mural = new Mural(dados, logado);
         muralRepository.save(mural);
         var uri = uriBuilder.path("/mural/{id}").buildAndExpand(mural.getId()).toUri();
 
