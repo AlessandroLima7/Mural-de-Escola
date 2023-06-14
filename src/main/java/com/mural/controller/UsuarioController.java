@@ -1,6 +1,7 @@
 package com.mural.controller;
 
 import com.mural.domain.usuario.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     @Autowired
@@ -54,7 +56,7 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(new DadosUsuario(usuario));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/incluir/{id}")
     @Transactional
     public ResponseEntity incluir(@PathVariable String id, @AuthenticationPrincipal Usuario logado){
         Usuario usuario = usuarioRepository.findById(id).get();
@@ -74,7 +76,7 @@ public class UsuarioController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/excluir/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable String id, @AuthenticationPrincipal Usuario logado){
         var usuario = usuarioRepository.findById(id).get();

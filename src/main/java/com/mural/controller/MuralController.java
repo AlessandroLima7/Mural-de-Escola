@@ -8,6 +8,7 @@ import com.mural.domain.usuario.DadosUsuario;
 import com.mural.domain.usuario.Perfil;
 import com.mural.domain.usuario.Usuario;
 import com.mural.domain.usuario.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/mural")
+@SecurityRequirement(name = "bearer-key")
 public class MuralController {
 
     @Autowired
