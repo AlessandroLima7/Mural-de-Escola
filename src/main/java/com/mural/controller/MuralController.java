@@ -1,10 +1,10 @@
 package com.mural.controller;
 
-import com.mural.domain.mural.DadosCadastroMural;
-import com.mural.domain.mural.DadosMural;
-import com.mural.domain.mural.Mural;
-import com.mural.domain.mural.MuralRepository;
-import com.mural.domain.usuario.DadosUsuario;
+import com.mural.domain.mural.*;
+import com.mural.domain.mural.dtos.DadosCadastroMural;
+import com.mural.domain.mural.dtos.DadosMural;
+import com.mural.domain.mural.dtos.DadosParaComentar;
+import com.mural.domain.usuario.dtos.DadosUsuario;
 import com.mural.domain.usuario.Perfil;
 import com.mural.domain.usuario.Usuario;
 import com.mural.domain.usuario.UsuarioRepository;
@@ -46,7 +46,7 @@ public class MuralController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosMural> cadastrar(@RequestBody @Valid DadosCadastroMural dados, @AuthenticationPrincipal Usuario logado,  UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosMural> cadastrar(@RequestBody @Valid DadosCadastroMural dados, @AuthenticationPrincipal Usuario logado, UriComponentsBuilder uriBuilder) {
         Mural mural = new Mural(dados, logado);
         muralRepository.save(mural);
         var uri = uriBuilder.path("/mural/{id}").buildAndExpand(mural.getId()).toUri();
@@ -61,6 +61,15 @@ public class MuralController {
         String resposta = mural.exibirNoMural(new DadosUsuario(logado));
         muralRepository.save(mural);
         return ResponseEntity.ok(resposta+mural);
+    }
+
+    @PutMapping("/comentar")
+    @Transactional
+    public ResponseEntity comentarNoMural(@AuthenticationPrincipal Usuario logado, @RequestBody DadosParaComentar dados) {
+        var mural = muralRepository.findById(dados.idMural()).get();
+        var resp = mural.comentar(new Comentarios(dados.comentario(), logado.getNome()));
+        muralRepository.save(mural);
+        return ResponseEntity.ok(resp);
     }
 
     @DeleteMapping("/{id}")

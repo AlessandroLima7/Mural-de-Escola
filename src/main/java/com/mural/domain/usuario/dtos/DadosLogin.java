@@ -1,4 +1,4 @@
-package com.mural.domain.usuario;
+package com.mural.domain.usuario.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 

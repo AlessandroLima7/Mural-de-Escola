@@ -1,7 +1,7 @@
 package com.mural.controller;
 
-import com.mural.domain.usuario.DadosCadastroUsuario;
-import com.mural.domain.usuario.DadosUsuario;
+import com.mural.domain.usuario.dtos.DadosCadastroUsuario;
+import com.mural.domain.usuario.dtos.DadosUsuario;
 import com.mural.domain.usuario.Perfil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 
@@ -50,7 +49,7 @@ class UsuarioControllerTest {
                     post("/usuario")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(dadosCadastroUsuarioJson.write(
-                            new DadosCadastroUsuario("Alessandro Santos", "Alesson", "123456", Perfil.ADMIN)
+                            new DadosCadastroUsuario("Alessandro Santos Lima", "Alessondre", "123456", Perfil.ADMIN)
                             ).getJson())
                 )
                 .andReturn().getResponse();
